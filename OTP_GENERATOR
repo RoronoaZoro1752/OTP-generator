@@ -1,0 +1,62 @@
+#source code
+import os
+import math
+import random
+import smtplib
+import time
+import threading
+
+emailid = input("Enter your email: ")
+time_sec=int() 
+
+def otp():
+
+    try:
+        digits="0123456789"
+        OTP=""
+        for i in range(6):
+            OTP+=digits[math.floor(random.random()*10)]
+
+        otp = OTP + " is your OTP"
+        msg= otp
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.starttls()
+        s.login("pythonproject12356@gmail.com", "wlostwhsqnzuebib")
+        s.sendmail(' ',emailid,msg)
+  
+        a = input("Enter Your OTP >>: ")
+        if a == OTP:
+            print("Verified")
+            time.sleep(1)
+
+        else:
+            print("Please Check your OTP again")
+            time.sleep(1)
+    except:
+        print("oops! \ncheck your internet connection OR Check your mail id")
+        print("TRY AGAIN!!!!!")
+
+
+def countdown(time_sec):
+    while time_sec:
+        mins, secs = divmod(time_sec, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+
+        time.sleep(1)
+        time_sec -= 1
+        if  time_sec==0:
+            print("\nstop, Times up")
+                
+        else:
+            None
+    os._exit(0)
+
+if __name__ =="__main__":
+    t1=threading.Thread(target=otp)
+    t2=threading.Thread(target=countdown,args=(30,),)
+   
+    t1.start()
+    t2.start()
+    
+    t1.join()
+    os._exit(0)
